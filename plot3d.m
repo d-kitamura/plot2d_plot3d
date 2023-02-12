@@ -45,6 +45,9 @@ for iIdx = 1:size(parIdx, 1)
         hdl(end-(i1-1)) = hdl(end-(i2-1)); % 長いベクトルの
         hdl(end-(i2-1)) = tmp; % 前面と背面を入れ替え
         set(ax, "children", hdl); % 軸の子クラスを変更後で更新
+        tmp = lgd(i1); % 短いベクトルと
+        lgd(i1) = lgd(i2); % 長いベクトルの
+        lgd(i2) = tmp; % 凡例も入れ替え
     end
 end
 
