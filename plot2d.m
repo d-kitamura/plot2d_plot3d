@@ -37,7 +37,7 @@ parIdx = pickParallel(vec); % 平行なベクトルの確認
 for iIdx = 1:size(parIdx, 1)
     i1 = parIdx(iIdx, 1); i2 = parIdx(iIdx, 2);
     parVec = vec(:, [i1, i2]); % 平行なベクトル2個をvecから抽出
-    if norm(parVec(:, 2)) > norm(parVec(:, 1)) % 後から描かれた（前面にある）ベクトルの方が長いとき
+    if norm(parVec(:, 2)) > norm(parVec(:, 1)) && norm(parVec(:, 1)) ~= 0 % 後から描かれた（前面にある）ベクトルの方が長いとき
         hdl = get(ax, "Children"); % 軸の子クラスから描画の順番を取得
         tmp = hdl(end-(i1-1)); % 短いベクトルと
         hdl(end-(i1-1)) = hdl(end-(i2-1)); % 長いベクトルの
