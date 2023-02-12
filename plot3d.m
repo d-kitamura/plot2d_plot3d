@@ -53,7 +53,7 @@ end
 
 % 部分空間の描画
 if exist("subSp", "var") && ~isempty(subSp) % subSpが引数として与えられているとき
-    subSp = subSp(sum(vec(:, subSp), 1)~=0); % 零ベクトルは部分空間に寄与しないので除外
+    subSp = subSp(sum(vec(:, subSp)~=0, 1)~=0); % 零ベクトルは部分空間に寄与しないので除外
     r = rank(vec(:, subSp)); % 指定されたベクトルの1次独立な最大個数を取得
     if r == 0 % 部分空間は原点（0次元空間）
         scatter3(0, 0, 0, 36, "filled", "MarkerFaceColor", [0.85, 0.85, 0.85], "MarkerEdgeColor", [0.85, 0.85, 0.85]);
