@@ -78,8 +78,9 @@ if exist("subSp", "var") && ~isempty(subSp) % subSpが引数として与えら�
         hdl = hdl([2:end, 1]); % 最新の描画（部分空間のsurf）を一番背面に変更
         set(ax, "children", hdl); % 軸の子クラスを変更後で更新
     else % 部分空間は3次元空間
-        set(ax, "Color", [0.85, 0.85, 0.85]); % figureの背景を透明に設定
+        set(ax, "Color", [0.85, 0.85, 0.85]); % figureの背景を灰色に設定
         set(ax, "BoxStyle", "full");
+        legend(lgd, "Location", "southwest", "LineWidth", lw, "Color", "w"); % 凡例の表示（背景色は再び白に変更）
     end
 else
     legend(lgd, "Location", "southwest", "LineWidth", lw); % 凡例の表示
