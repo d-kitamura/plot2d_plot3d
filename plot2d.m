@@ -48,8 +48,15 @@ end
 
 % 部分空間の描画
 if exist("subSp", "var") && ~isempty(subSp) % subSpが引数として与えられているとき
+    subSp = subSp(sum(vec(:, subSp), 1)~=0); % 零ベクトルは部分空間に寄与しないので除外
     r = rank(vec(:, subSp)); % 指定されたベクトルの1次独立な最大個数を取得
-    if r == 1 % 部分空間は直線（1次元空間）
+    if r == 0 % 部分空間は原点（0次元空間）
+        scatter(0, 0, 36, "filled", "MarkerFaceColor", [0.85, 0.85, 0.85], "MarkerEdgeColor", [0.85, 0.85, 0.85]);
+        legend(lgd, "Location", "southwest", "LineWidth", lw); % 凡例の表示（この後順番を入れ替えるのでここで表示しておく）
+        hdl = get(ax, "Children"); % 軸の子クラスから描画の順番を取得
+        hdl = hdl([2:end, 1]); % 最新の描画（部分空間のscatter）を一番背面に変更
+        set(ax, "children", hdl); % 軸の子クラスを変更後で更新
+    elseif r == 1 % 部分空間は直線（1次元空間）
         u = vec(:, subSp(1));
         k = minEnd:maxEnd; % 媒介変数（k*uの係数k）
         X = k*u(1); Y = k*u(2);
