@@ -37,18 +37,7 @@ xlabel("x"); ylabel("y"); zlabel("z");
 % 平行なベクトルは短いものを前面，長いものを背面に入れ替え
 parIdx = pickParallel(vec); % 平行なベクトルの確認
 for iIdx = 1:size(parIdx, 1)
-    i1 = parIdx(iIdx, 1); i2 = parIdx(iIdx, 2);
-    parVec = vec(:, [i1, i2]); % 平行なベクトル2個をvecから抽出
-    if norm(parVec(:, 2)) > norm(parVec(:, 1)) && norm(parVec(:, 1)) ~= 0 % 後から描かれた（前面にある）ベクトルの方が長いとき
-        hdl = get(ax, "Children"); % 軸の子クラスから描画の順番を取得
-        tmp = hdl(end-(i1-1)); % 短いベクトルと
-        hdl(end-(i1-1)) = hdl(end-(i2-1)); % 長いベクトルの
-        hdl(end-(i2-1)) = tmp; % 前面と背面を入れ替え
-        set(ax, "children", hdl); % 軸の子クラスを変更後で更新
-        tmp = lgd(i1); % 短いベクトルと
-        lgd(i1) = lgd(i2); % 長いベクトルの
-        lgd(i2) = tmp; % 凡例も入れ替え
-    end
+    lgd = swapVecs(parIdx(iIdx, :), vec, ax, lgd);
 end
 
 % 部分空間の描画
@@ -101,5 +90,25 @@ for iPtn = 1:nPtn
     r(iPtn) = rank(vec(:, idx)); % 2個のベクトルを列に持つ行列のランクを調べる（1なら1次従属）
 end
 idx = ptn(r<2, :); % 1次従属なベクトルの組み合わせ
+end
+
+% -------------------------------------------------------------------------
+function lgd = swapVecs(idx, vec, ax, lgd)
+    i1 = idx(1); i2 = idx(2);
+    parVec = vec(:, [i1, i2]); % 平行なベクトル2個をvecから抽出
+    if norm(parVec(:, 2)) > norm(parVec(:, 1)) && norm(parVec(:, 1)) ~= 0 % 後から描かれた（前面にある）ベクトルの方が長いとき
+        hdl = get(ax, "Children"); % 軸の子クラスから描画の順番を取得
+
+        % 短いベクトルと長いベクトルの前面と背面を入れ替え
+        tmp = hdl(end-(i1-1));
+        hdl(end-(i1-1)) = hdl(end-(i2-1));
+        hdl(end-(i2-1)) = tmp;
+        set(ax, "children", hdl); % 軸の子クラスを変更後で更新
+
+        % 短いベクトルと長いベクトルの凡例も入れ替え
+        tmp = lgd(i1);
+        lgd(i1) = lgd(i2);
+        lgd(i2) = tmp;
+    end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% EOF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
