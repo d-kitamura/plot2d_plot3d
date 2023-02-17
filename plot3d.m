@@ -10,7 +10,7 @@ function plot3d(vec, subSp)
 %
 arguments
     vec (3, :) {mustBeNumeric}
-    subSp (1, :) {mustBeInteger} = []
+    subSp (1, :) {mustBeInteger, mustBePositive} = []
 end
 
 nVec = size(vec, 2); % 入力されたベクトルの本数
