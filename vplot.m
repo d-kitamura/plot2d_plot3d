@@ -19,7 +19,7 @@ if nDim == 2
 elseif nDim == 3
     plot3dVec(vec, subSp);
 else
-    error("入力ベクトルは2次元または3次元出なければなりません．\n");
+    error("入力ベクトルは2次元または3次元でなければなりません．\n");
 end
 end
 
